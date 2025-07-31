@@ -1,0 +1,19 @@
+name: Auto approve
+
+on:
+  pull_request_target:
+    branches:
+      - main
+      - development
+
+jobs:
+  auto-approve:
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      pull-requests: write
+    if: github.actor == 'dependabot[bot]' || 'exercism-solutions-syncer[bot] || github.actor == '<me>'
+    steps:
+      - uses: hmarr/auto-approve-action@v3
+        with:
+          github-token: ${{ secrets.SERVICE_ACCOUNT_TOKEN }}
